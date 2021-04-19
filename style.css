@@ -1,4 +1,8 @@
+body{
+    height: 100vh;
+}
 .container{
+    height: 70%;
     display: flex;
     justify-content: center;
     align-items: center;
