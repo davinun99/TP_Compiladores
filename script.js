@@ -1,7 +1,7 @@
 //document.getElementById('regexInputButton').addEventListener('click', hola);
 
 (() => {
-    const input = "ab*"; //Test input
+    const input = "a(b*)"; //Test input
     const alphabetA = "baaa"; //Test alphabet
     const printMat = mat =>{// This just print the matrix
         let toPrint = '';
@@ -25,13 +25,26 @@
         )
     ).join('');//Extract the unique characters and sort them
     console.log('Alphabet: ' + alphabet);
-        
     const recursiveGetMatrix = (regex, currStateNumber) => {//Function to consume regex and return the Matrix
         const orPos = regex.indexOf('|');
         const cleanPos = regex.indexOf('*');
         const openPar = regex.indexOf('(');
         const closePar = regex.lastIndexOf(')');
-        if(orPos !== -1){
+
+        if(closePar !== -1 && openPar !== -1){
+            const newRegex = regex.substring(openPar+1, closePar);
+            if(closePar === regex.length-1){
+                return recursiveGetMatrix(newRegex, currStateNumber);
+            }else if(cleanPos === closePar + 1){
+                //clean the newRegex
+            }else if(
+                regex[orPos+1] === '(' &&
+                regex[orPos-1] === ')'
+            ){
+                //Or in between
+            }
+            
+        }else if(orPos !== -1){
             const sMat = recursiveGetMatrix(regex.substring(0, orPos), currStateNumber +1); //load the S mat with the things left to the '|'
             const sMatStatesQuant = sMat.length;
             let lastStateNumberS = sMatStatesQuant + currStateNumber;
@@ -63,9 +76,6 @@
             let newState = new Array(alphabet.length + 1);//create new state that will point to s
             newState[alphabet.length] = [currStateNumber + 1, lastStateNumber];//The start has to point to the end
             return [newState].concat(sMat);
-        }else if(closePar !== -1 && openPar !== -1){
-            const newRegex = regex.substring(openPar+1, closePar);
-            return recursiveGetMatrix(newRegex, currStateNumber);
         }else if(regex.length === 1){
             let currRow = new Array(alphabet.length + 1);//new array for the new state
             currRow[alphabet.length] = [];//the last element of the array is another array with VACIO pointers
