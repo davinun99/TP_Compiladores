@@ -1,7 +1,9 @@
 //document.getElementById('regexInputButton').addEventListener('click', hola);
 
 (() => {
-    const printMat = mat =>{
+    const input = "ab|ba"; //Test input
+    const alphabetA = "baaa"; //Test alphabet
+    const printMat = mat =>{// This just print the matrix
         let toPrint = '';
         for( let i = 0; i < mat.length; i++ ){
             toPrint = `${toPrint} State ${i+1}:\t`;
@@ -17,18 +19,14 @@
         toPrint = `${toPrint} State ${mat.length+1}:\t\t  FINAL`;
         console.log(toPrint);
     }
-    const alphabetA = "baaa";
     const alphabet = Array.from(
         new Set(
             alphabetA.split('').sort()
         )
-    ).join('');
+    ).join('');//Extract the unique characters and sort them
     console.log('Alphabet: ' + alphabet);
-    let mat = [[]];
-    mat[0] = new Array(alphabet.length);
-    const input = "ab|ba";
-    
-    const recursiveGetMatrix = (regex, currStateNumber) => {
+        
+    const recursiveGetMatrix = (regex, currStateNumber) => {//Function to consume regex and return the Matrix
         const orPos = regex.indexOf('|');
         const cleanPos = regex.indexOf('*');
         if(orPos !== -1){
@@ -73,5 +71,5 @@
             );
         }
     }
-    printMat(recursiveGetMatrix(input, 1));
+    printMat(recursiveGetMatrix(input, 1));//Print the generated matrix
 })()
