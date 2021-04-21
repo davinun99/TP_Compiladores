@@ -1,7 +1,7 @@
 //document.getElementById('regexInputButton').addEventListener('click', hola);
 
 (() => {
-    const input = "ab|ba"; //Test input
+    const input = "ab*"; //Test input
     const alphabetA = "baaa"; //Test alphabet
     const printMat = mat =>{// This just print the matrix
         let toPrint = '';
@@ -29,6 +29,8 @@
     const recursiveGetMatrix = (regex, currStateNumber) => {//Function to consume regex and return the Matrix
         const orPos = regex.indexOf('|');
         const cleanPos = regex.indexOf('*');
+        const openPar = regex.indexOf('(');
+        const closePar = regex.lastIndexOf(')');
         if(orPos !== -1){
             const sMat = recursiveGetMatrix(regex.substring(0, orPos), currStateNumber +1); //load the S mat with the things left to the '|'
             const sMatStatesQuant = sMat.length;
@@ -52,13 +54,18 @@
         }else if(cleanPos !== -1){
             const sMat = recursiveGetMatrix( regex.substring(0, cleanPos), currStateNumber + 1);//load the matrix with the nexts states
             const statesQuant = sMat.length;
-            let lastStateNumber = statesQuant + currStateNumber;
-            sMat[statesQuant-1][alphabet.length].push(lastStateNumber+1);//The end of s has to point to the new end
-            sMat[statesQuant-1][alphabet.length].push(currStateNumber+1);//The end of s has to the start of s
-            
+            let lastStateNumber = statesQuant + currStateNumber + 2;
+
+            let lastSState = new Array(alphabet.length+1); //new END for S
+            lastSState[alphabet.length] = [lastStateNumber, currStateNumber+1]; //The end of s has to point to the new end and start of S
+            sMat.push(lastSState);//push the new END
+
             let newState = new Array(alphabet.length + 1);//create new state that will point to s
-            newState[alphabet.length] = [currStateNumber + 1, lastStateNumber+1];//The start has to point to the end
+            newState[alphabet.length] = [currStateNumber + 1, lastStateNumber];//The start has to point to the end
             return [newState].concat(sMat);
+        }else if(closePar !== -1 && openPar !== -1){
+            const newRegex = regex.substring(openPar+1, closePar);
+            return recursiveGetMatrix(newRegex, currStateNumber);
         }else if(regex.length === 1){
             let currRow = new Array(alphabet.length + 1);//new array for the new state
             currRow[alphabet.length] = [];//the last element of the array is another array with VACIO pointers
