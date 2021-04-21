@@ -24,7 +24,7 @@ document.getElementById('regexInputButton').addEventListener('click', hola);
     const printMat = mat =>{
         let toPrint = '';
         for( let i = 0; i < mat.length; i++ ){
-            for( let j = 0; j < mat[j].length; j++ ){
+            for( let j = 0; j < mat[i].length; j++ ){
                 const el = mat[i][j];
                 if(el)
                     toPrint = `${toPrint}\t${el}`;
@@ -35,8 +35,6 @@ document.getElementById('regexInputButton').addEventListener('click', hola);
         }
         console.log(toPrint);
     }
-    const START = "__START__";
-    const END = "__END__";
     const alphabetA = "baaa";
     const alphabet = Array.from(
         new Set(
@@ -46,20 +44,36 @@ document.getElementById('regexInputButton').addEventListener('click', hola);
     console.log('Alphabet: ' + alphabet);
     let mat = [[]];
     mat[0] = new Array(alphabet.length);
-    const input = "abba";
-    let currentIndexMatrix = 0;
-    for( let i = 0; i < input.length; i++ ){
-        const car = input[i]; //character
-        const colN = alphabet.indexOf(car);//what position of the alphabet is the carac
-        if( colN !== -1){
-            mat[currentIndexMatrix][colN] = currentIndexMatrix + 1;
-            currentIndexMatrix++;
-            if( i != input.length - 1 )
-                mat[currentIndexMatrix] = new Array(alphabet.length);
-        }else if ( car === '|' ){
+    const input = "ab*";
+    
+    const recursiveGetMatrix = (regex, currStateNumber) => {
+        const orPos = regex.indexOf('|');
+        const cleanPos = regex.indexOf('*');
+        if(orPos !== -1){
+
+        }else if(cleanPos !== -1){
+            const sMat = recursiveGetMatrix( regex.substring(0, cleanPos), currStateNumber + 1);//load the matrix with the nexts states
+            const statesQuant = sMat.length;
+            let lastStateNumber = statesQuant + currStateNumber;
+            sMat[statesQuant-1][alphabet.length].push(lastStateNumber+1);//The end of s has to point to the new end
+            sMat[statesQuant-1][alphabet.length].push(currStateNumber+1);//The end of s has to the start of s
             
+            let newState = new Array(alphabet.length + 1);//create new state that will point to s
+            console.log(newState);
+            newState[alphabet.length] = [currStateNumber + 1, lastStateNumber+1];//The start has to point to the end
+            console.log(newState);
+            return [newState].concat(sMat);
+        }else if(regex.length === 1){
+            let currRow = new Array(alphabet.length + 1);
+            currRow[alphabet.length] = [];
+            const colN = alphabet.indexOf(regex);
+            currRow[colN] = currStateNumber + 1;
+            return [currRow];
+        }else if(regex.length > 1){
+            return recursiveGetMatrix(regex[0], currStateNumber).concat(
+                recursiveGetMatrix(regex.substring(1), currStateNumber+1)
+            );
         }
-        
     }
-    printMat(mat);
+    printMat(recursiveGetMatrix(input, 0));
 })()
