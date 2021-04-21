@@ -49,12 +49,17 @@ document.getElementById('regexInputButton').addEventListener('click', hola);
     const input = "abba";
     let currentIndexMatrix = 0;
     for( let i = 0; i < input.length; i++ ){
-        const car = input[i];
-        const colN = alphabet.indexOf(car);
-        mat[currentIndexMatrix][colN] = currentIndexMatrix + 1;
-        currentIndexMatrix++;
-        if( i != input.length - 1 )
-            mat[currentIndexMatrix] = new Array(alphabet.length);
+        const car = input[i]; //character
+        const colN = alphabet.indexOf(car);//what position of the alphabet is the carac
+        if( colN !== -1){
+            mat[currentIndexMatrix][colN] = currentIndexMatrix + 1;
+            currentIndexMatrix++;
+            if( i != input.length - 1 )
+                mat[currentIndexMatrix] = new Array(alphabet.length);
+        }else if ( car === '|' ){
+            
+        }
+        
     }
     printMat(mat);
 })()
