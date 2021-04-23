@@ -1,4 +1,5 @@
 import Thompson from './utils/Thompson.js';
+import AFDConvertion from './utils/AFDConvertion.js';
 //document.getElementById('regexInputButton').addEventListener('click', hola);
 
 (() => {
@@ -29,5 +30,6 @@ import Thompson from './utils/Thompson.js';
     console.log('Alphabet: ' + alphabet);
     const mt = Thompson(alphabet, input);
     printMat(mt);
+    AFDConvertion(alphabet,mt);
     document.getElementById('result').innerHTML = result;
 })()
