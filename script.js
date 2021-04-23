@@ -8,7 +8,7 @@ import AFDConvertion from './utils/AFDConvertion.js';
     const printMat = mat =>{// This just print the matrix
         let toPrint = '';
         for( let i = 0; i < mat.length; i++ ){
-            toPrint = `${toPrint} State ${i+1}:\t`;
+            toPrint = `${toPrint} State ${i}:\t`;
             for( let j = 0; j < mat[i].length; j++ ){
                 const el = mat[i][j];
                 if(el)
@@ -18,7 +18,7 @@ import AFDConvertion from './utils/AFDConvertion.js';
             }
             toPrint = `${toPrint}\n`;
         }
-        toPrint = `${toPrint} State ${mat.length+1}:\t\t  FINAL`;
+        toPrint = `${toPrint} State ${mat.length}:\t\t  FINAL`;
         console.log(toPrint);
     }
     const alphabet = Array.from(

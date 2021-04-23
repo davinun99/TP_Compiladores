@@ -100,6 +100,6 @@ function Thompson(alphabet, input){
             );
         }
     }
-    return (recursiveGetMatrix(input, 1));
+    return (recursiveGetMatrix(input, 0));
 }
 export default Thompson;

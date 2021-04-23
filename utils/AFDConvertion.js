@@ -18,12 +18,27 @@ class DEstadosContainer{
 export default function AFDConvertion(alphabet, matrix){
     
     const closeClosure = (stateNumber, character) => {
-        
+        if(matrix.length === stateNumber){
+            return [];
+        }else if(character === ''){//IF VACIO CHARACTER
+            const lastIndex = matrix[stateNumber].length -1;
+            if(matrix[stateNumber][lastIndex] && matrix[stateNumber][lastIndex].length){
+                let nextStates = [];
+                matrix[stateNumber][lastIndex].forEach(state => {
+                    nextStates = nextStates.concat(closeClosure(state, character));
+                });
+                return matrix[stateNumber][lastIndex].concat(nextStates);
+            }else{
+                return [];
+            }
+        }
     }
     //Initialize DEstates
-    const dEstates = new DEstadosContainer();
+    const dEstates = new DEstadosContainer( );
     let dEstatesCount = 0;
     const dTran = [[]];
+    console.log(closeClosure(0, ''));
+    return;
     while(true){ //while dEstates has unmarked states
         const tState = dEstates.get(dEstatesCount);
         dEstatesCount++;//mark T in dEstates
