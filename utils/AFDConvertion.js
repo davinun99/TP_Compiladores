@@ -1,15 +1,18 @@
 
 class DEstatesContainer{
     statesSet = [];
-    constructor(){
-        
+    constructor(initialStateSet){
+        this.statesSet.push(initialStateSet);
     }
     hasSet(set){
-        this.statesSet.forEach(states =>{
-            states.forEach((state, index) =>{
-                
-            })
-        })
+        for(const states of this.statesSet) {
+            let flagHasStates = true;
+            for (const state of states) {
+                flagHasStates = flagHasStates && set.includes(state)
+            }
+            if(flagHasStates)
+                return true;
+        }
         return false;
     }
     get(index){
@@ -17,6 +20,9 @@ class DEstatesContainer{
     }
     add(set){
         this.statesSet = this.statesSet.concat(set);
+    }
+    get length(){
+        return this.statesSet.length;
     }
 }
 
@@ -47,18 +53,17 @@ export default function AFDConvertion(alphabet, matrix){
         }
     }
     //Initialize DEstates
-    const dEstates = new DEstadosContainer( );
-    let dEstatesCount = 0;
+    const initialStates = closeClosure(0, '');
+    const dEstates = new DEstatesContainer(initialStates);
+    let dEstatesIndex = 0;
     const dTran = [[]];
-    console.log(closeClosure(2, 'b'));
-    return;
-    while(true){ //while dEstates has unmarked states
-        const tState = dEstates.get(dEstatesCount);
-        dEstatesCount++;//mark T in dEstates
-        for (let i = 0; i < alphabet.length; i++) {//for each symbol in alphabet
-            const element = alphabet[i];
-            const U = closeClosure();
-            if(!dEstates.hasSet(U)){
+
+    while(dEstatesIndex < dEstates.length){ //while dEstates has unmarked states
+        const tState = dEstates.get(dEstatesIndex);
+        dEstatesIndex++;//mark T in dEstates
+        for (const symbol of alphabet) {//for each symbol in alphabet
+            const U = closeClosure(tState, symbol);//Implement closeClosure of an array
+            if(!dEstates.hasSet(U)){//If u is not in dEstates already add it
                 dEstates.add(U);
             }
             dTran[tState, element] = U;
