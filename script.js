@@ -30,6 +30,7 @@ import AFDConvertion from './utils/AFDConvertion.js';
     console.log('Alphabet: ' + alphabet);
     const mt = Thompson(alphabet, input);
     printMat(mt);
-    AFDConvertion(alphabet,mt);
+    const dTran = AFDConvertion(alphabet,mt);
+    printMat(dTran);
     document.getElementById('result').innerHTML = result;
 })()

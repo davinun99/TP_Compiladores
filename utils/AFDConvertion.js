@@ -8,14 +8,24 @@ class DEstatesContainer{
         for(const states of this.statesSet) {
             let flagHasStates = true;
             for (const state of set) {
-                //if(states.length > 0)
-                
                 flagHasStates = flagHasStates && states.includes(state)
             }
             if(flagHasStates)
                 return true;
         }
         return false;
+    }
+    getSetIndex(set){
+        let indexToReturn = null;
+        this.statesSet.forEach((states, index)=>{
+            let flagHasStates = true;
+            for (const state of set) {
+                flagHasStates = flagHasStates && states.includes(state)
+            }
+            if(flagHasStates)
+                indexToReturn = index;
+        });
+        return indexToReturn;
     }
     get(index){
         return this.statesSet[index];
@@ -75,7 +85,7 @@ export default function AFDConvertion(alphabet, matrix){
     const arrayClosure = (array, character) =>{
         let result = [];
         array.forEach(element => {
-            result = result.concat( closeClosure(element, character) );
+            result = result.concat( move(element, character) );
         });
         result = result.concat(array);
         result.sort();
@@ -85,19 +95,23 @@ export default function AFDConvertion(alphabet, matrix){
     const initialStates = move(0, '');
     const dEstates = new DEstatesContainer(initialStates);
     let dEstatesIndex = 0;
-    const dTran = [[]];
+    let dTran = [];
     while(dEstatesIndex < dEstates.length){ //while dEstates has unmarked states
         const tState = dEstates.get(dEstatesIndex);
         dEstatesIndex++;//mark T in dEstates
+        let newState = new Array(alphabet.length + 1); //generate a new state for dTrans
         for (const symbol of alphabet) {//for each symbol in alphabet
             const U = arrayClosure(tState, symbol);//Implement closeClosure of an array
             if(!dEstates.hasSet(U)){//If u is not in dEstates already add it
                 dEstates.add(U);
             }
-            //dEstates.print()
+            console.log(dEstates.getSetIndex(U));
             //dTran[tState, alphabet] = U;
+            newState[alphabet.indexOf(symbol)] = dEstates.getSetIndex(U);//the new state moves to the U index with the current symbol.
         }
-        
+        dTran.push(newState);
     }
     dEstates.print();
+    console.log(dTran);
+    return dTran;
 };
