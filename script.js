@@ -3,7 +3,7 @@ import AFDConvertion from './utils/AFDConvertion.js';
 //document.getElementById('regexInputButton').addEventListener('click', hola);
 
 (() => {
-    const input = "(ab)*b"; //Test input
+    const input = "(a|b)*abb"; //Test input
     const alphabetA = "baaa"; //Test alphabet
     const printMat = mat =>{// This just print the matrix
         let toPrint = '';
