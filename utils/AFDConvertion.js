@@ -5,7 +5,10 @@ class DEstatesContainer{
         this.statesSet.push(initialStateSet);
     }
     hasSet(set){
+        
         for(const states of this.statesSet) {
+            if(set.length !== states.length)
+                continue;
             let flagHasStates = true;
             for (const state of set) {
                 flagHasStates = flagHasStates && states.includes(state)
@@ -18,6 +21,8 @@ class DEstatesContainer{
     getSetIndex(set){
         let indexToReturn = null;
         this.statesSet.forEach((states, index)=>{
+            if(set.length !== states.length)
+                return;
             let flagHasStates = true;
             for (const state of set) {
                 flagHasStates = flagHasStates && states.includes(state)
@@ -37,6 +42,7 @@ class DEstatesContainer{
         return this.statesSet.length;
     }
     print(){
+        console.log(this.statesSet);
         let toPrint = '';
         this.statesSet.forEach( (stateSet, index) => {
             toPrint = `${toPrint}{`;
@@ -76,7 +82,7 @@ export default function AFDConvertion(alphabet, matrix){
         }else if(indexOfChar !== -1){//IF ALPHABET CHARACTER
             const nextStates = matrix[stateNumber][indexOfChar];
             if(nextStates){
-                return [nextStates].concat(move(nextStates, character)).sort();//return the state + the next states possibles
+                return [nextStates].sort();//return the state + the next states possibles
             }else{
                 return [];
             }
@@ -87,31 +93,33 @@ export default function AFDConvertion(alphabet, matrix){
         array.forEach(element => {
             result = result.concat( move(element, character) );
         });
-        result = result.concat(array);
+        if(character == '')
+            result = result.concat(array);
         result.sort();
         return result;
     }
     //Initialize DEstates
     const initialStates = move(0, '');
+    initialStates.unshift(0);
     const dEstates = new DEstatesContainer(initialStates);
     let dEstatesIndex = 0;
     let dTran = [];
     while(dEstatesIndex < dEstates.length){ //while dEstates has unmarked states
         const tState = dEstates.get(dEstatesIndex);
+        
         dEstatesIndex++;//mark T in dEstates
         let newState = new Array(alphabet.length + 1); //generate a new state for dTrans
         for (const symbol of alphabet) {//for each symbol in alphabet
-            const U = arrayClosure(tState, symbol);//Implement closeClosure of an array
+            let U = arrayClosure(tState, symbol);//Implement closeClosure of an array
+            U = arrayClosure(U, '');
             if(!dEstates.hasSet(U)){//If u is not in dEstates already add it
                 dEstates.add(U);
             }
-            console.log(dEstates.getSetIndex(U));
             //dTran[tState, alphabet] = U;
             newState[alphabet.indexOf(symbol)] = dEstates.getSetIndex(U);//the new state moves to the U index with the current symbol.
         }
         dTran.push(newState);
     }
     dEstates.print();
-    console.log(dTran);
     return dTran;
 };

@@ -1,5 +1,7 @@
 import Thompson from './utils/Thompson.js';
 import AFDConvertion from './utils/AFDConvertion.js';
+import AFDMinimization from './utils/AFDMinimization.js';
+
 //document.getElementById('regexInputButton').addEventListener('click', hola);
 
 (() => {
@@ -32,5 +34,6 @@ import AFDConvertion from './utils/AFDConvertion.js';
     printMat(mt);
     const dTran = AFDConvertion(alphabet,mt);
     printMat(dTran);
+    AFDMinimization(alphabet, dTran);
     document.getElementById('result').innerHTML = result;
 })()
