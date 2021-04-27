@@ -31,9 +31,10 @@ import AFDMinimization from './utils/AFDMinimization.js';
     console.log('Input: ' + input);
     console.log('Alphabet: ' + alphabet);
     const mt = Thompson(alphabet, input);
-    printMat(mt);
+    //printMat(mt);
     const dTran = AFDConvertion(alphabet,mt);
     printMat(dTran);
-    AFDMinimization(alphabet, dTran);
+    const tTable = AFDMinimization(alphabet, dTran);
+    printMat(tTable);
     document.getElementById('result').innerHTML = result;
 })()

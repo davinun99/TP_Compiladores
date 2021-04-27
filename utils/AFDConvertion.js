@@ -42,7 +42,6 @@ class DEstatesContainer{
         return this.statesSet.length;
     }
     print(){
-        console.log(this.statesSet);
         let toPrint = '';
         this.statesSet.forEach( (stateSet, index) => {
             toPrint = `${toPrint}{`;

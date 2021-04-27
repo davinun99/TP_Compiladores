@@ -1,42 +1,58 @@
-export default function AFDConvertion(alphabet, matrix){
+export default function AFDMinimization(alphabet, matrix){
+    
     const getNoFinalStates = () => {
-        return matrix.reduce((result, _, index )=> index != matrix.length - 1 ? result.concat(index): result, []);
+        return matrix.reduce(
+            (curr, _, i) =>  (i < matrix.length -1 ? curr.concat(i) : curr), [] 
+        );
     }
-    const getGroup = (PI, state) => {
+    const PI = [
+        [matrix.length-1],
+        getNoFinalStates()
+    ];
+    const getGroup = (PI, state) =>{
         for (let i = 0; i < PI.length; i++) {
             if(PI[i].includes(state)){
                 return i;
             }
         }
     }
-    const PI = [[matrix.length - 1], getNoFinalStates()];
-    let index = 0;
-    while(index < PI.length){
-        //correct this shit pls
-        const states = PI[index];
-        if(states.length > 1){
-            for (let charInd = 0; charInd < alphabet.length; charInd++) {
-                const targetGroup = getGroup(PI, matrix[0][charInd]);
-                console.log(targetGroup);
-                const toRemove = [];
-                for (let i = 1; i < matrix.length; i++) {
-                    if(getGroup(PI, matrix[i][charInd]) !== targetGroup){
-                        toRemove.push(states[i]);
+    let oldPILength = 0;
+    while( oldPILength !== PI.length ){ //While PI doesnt change go around the array
+        oldPILength = PI.length; //oldPI checks if PI doesnt change
+        for(let i = 0; i < PI.length; i++){
+            //console.log(PI[i]);
+            let stateToChange = null;
+            if( PI[i].length > 1){
+                for( let j = 0; j < alphabet.length; j++ ){
+                    const firstState = PI[i][0];
+                    const targetGroup = getGroup(PI, matrix[firstState][j]);
+                    for(let k = 1; k < PI[i].length; k++){
+                        const state = PI[i][k];
+                        if( targetGroup !== getGroup( PI, matrix[state][j] ) ){
+                            //do the change
+                            stateToChange = state;
+                        }
                     }
                 }
-                if(toRemove.length){ 
-                    toRemove.forEach(element=>{
-                        PI[index] = PI[index].filter(el => el!== element);
-                        PI.push([element]);
-                    });
-                }else{
-                    index++;
-                }
-                
             }
-        }else{
-            index++;
+            if(stateToChange){
+                PI.push( 
+                    PI[i].filter(state => state !== stateToChange) 
+                );
+                PI[i] = [stateToChange];
+            }
         }
     }
+    //Now PI has the states possible, we should build the transition table:
+    const transitionTable = [];
     //console.log(PI);
+    //WORK ON THISSSS::::
+    for (const states of PI) {
+        const newRow = [];
+        for (let i = 0; i < alphabet.length; i++) {
+            newRow.push( getGroup(PI, matrix[states[0]][i] ) );
+        }
+        transitionTable.push(newRow);
+    }
+    return transitionTable;
 }
