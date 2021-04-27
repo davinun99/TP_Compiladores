@@ -57,7 +57,7 @@ class DEstatesContainer{
                 toPrint = `${toPrint}}`;
             
         })
-        console.log(toPrint);
+        //console.log(toPrint);
     }
 }
 
