@@ -20,7 +20,6 @@ export default function AFDMinimization(alphabet, matrix){
     while( oldPILength !== PI.length ){ //While PI doesnt change go around the array
         oldPILength = PI.length; //oldPI checks if PI doesnt change
         for(let i = 0; i < PI.length; i++){
-            //console.log(PI[i]);
             let stateToChange = null;
             if( PI[i].length > 1){
                 for( let j = 0; j < alphabet.length; j++ ){
@@ -46,11 +45,11 @@ export default function AFDMinimization(alphabet, matrix){
     //Now PI has the states possible, we should build the transition table:
     const transitionTable = [];
     //console.log(PI);
-    //WORK ON THISSSS::::
     for (const states of PI) {
         const newRow = [];
         for (let i = 0; i < alphabet.length; i++) {
-            newRow.push( getGroup(PI, matrix[states[0]][i] ) );
+            const firstState = states[0];
+            newRow.push( getGroup(PI, matrix[firstState][i] ) );
         }
         transitionTable.push(newRow);
     }

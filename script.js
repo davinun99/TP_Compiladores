@@ -13,7 +13,7 @@ import AFDMinimization from './utils/AFDMinimization.js';
             toPrint = `${toPrint} State ${i}:\t`;
             for( let j = 0; j < mat[i].length; j++ ){
                 const el = mat[i][j];
-                if(el)
+                if(el===0 || el)
                     toPrint = `${toPrint}\t${el}`;
                 else
                     toPrint = `${toPrint}\t_`;
