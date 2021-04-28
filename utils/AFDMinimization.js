@@ -17,41 +17,50 @@ export default function AFDMinimization(alphabet, matrix){
         }
     }
     let oldPILength = 0;
-    while( oldPILength !== PI.length ){ //While PI doesnt change go around the array
+    while( oldPILength !== PI.length ){ //While PI change process all again
         oldPILength = PI.length; //oldPI checks if PI doesnt change
-        for(let i = 0; i < PI.length; i++){
-            let stateToChange = null;
-            if( PI[i].length > 1){
-                for( let j = 0; j < alphabet.length; j++ ){
-                    const firstState = PI[i][0];
-                    const targetGroup = getGroup(PI, matrix[firstState][j]);
-                    for(let k = 1; k < PI[i].length; k++){
-                        const state = PI[i][k];
-                        if( targetGroup !== getGroup( PI, matrix[state][j] ) ){
+        for(let i = 0; i < PI.length; i++){//Go around every element ofPI
+            let stateToChange = null; //this saves the element that has to move out the array
+            if( PI[i].length > 1){ //If the element is alone, just advance
+                for( let j = 0; j < alphabet.length; j++ ){//Go around the characters of the alphabet
+                    const firstState = PI[i][0];//The first state of the array 
+                    const targetGroup = getGroup(PI, matrix[firstState][j]); //The group of PI that contains the value pointed by the firstState
+                    for(let k = 1; k < PI[i].length; k++){//Go around the next values of this element of PI
+                        const state = PI[i][k];//Holds the value of the state...
+                        if( targetGroup !== getGroup( PI, matrix[state][j] ) ){//If the value pointed by the current state doesnt belong to the target group remove
                             //do the change
                             stateToChange = state;
                         }
                     }
                 }
             }
-            if(stateToChange){
-                PI.push( 
+            if(stateToChange){//If we have something to remove
+                PI.push( //Remove the element from this element of PI and PUSH it again
                     PI[i].filter(state => state !== stateToChange) 
                 );
-                PI[i] = [stateToChange];
+                PI[i] = [stateToChange];//Replace the current index with an array composed by the removed element
             }
         }
     }
     //Now PI has the states possible, we should build the transition table:
     const transitionTable = [];
-    //console.log(PI);
-    for (const states of PI) {
+    for (const states of PI) {//Go around each element of PI
         const newRow = [];
-        for (let i = 0; i < alphabet.length; i++) {
-            const firstState = states[0];
-            newRow.push( getGroup(PI, matrix[firstState][i] ) );
+        for (let i = 0; i < alphabet.length; i++) {//Go around the alphabet
+            const firstState = states[0];//Get the first state of this element (We just need one because all the elements point to the same state)
+            newRow.push( getGroup(PI, matrix[firstState][i] ) );//Push the group pointed by the first state
         }
-        transitionTable.push(newRow);
+        if(states.includes(0)){//The alphabet.length column has 1 if is an initial state
+            newRow.push(1);
+        }else{
+            newRow.push(0);
+        }
+        if(states.includes(matrix.length-1)){//The alphabet.length+1 column has 1 if is an final state
+            newRow.push(1);
+        }else{
+            newRow.push(0);
+        }
+        transitionTable.push(newRow);//Add the generated new row to the transition table
     }
     return transitionTable;
 }

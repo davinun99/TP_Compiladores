@@ -8,7 +8,7 @@ import Simulation from './utils/Simulation.js';
 (() => {
     const input = "(a|b)*abb"; //Test input
     const alphabetA = "baaa"; //Test alphabet
-    const toSimulate = "abb"; //Test simulation
+    const toSimulate = "abba"; //Test simulation
     const printMat = mat =>{// This just print the matrix
         let toPrint = '';
         for( let i = 0; i < mat.length; i++ ){
@@ -30,7 +30,8 @@ import Simulation from './utils/Simulation.js';
             alphabetA.split('').sort()
         )
     ).join('');//Extract the unique characters and sort them
-    console.log('Input: ' + input);
+    console.log('Lexical: ' + input);
+    console.log('TestInput: ' + toSimulate);
     console.log('Alphabet: ' + alphabet);
     const mt = Thompson(alphabet, input);
     //printMat(mt);
