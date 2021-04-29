@@ -9,7 +9,7 @@ import {printMat, printAlphabet} from './utils/printing.js';
 
 (() => {
     const input = "(a|b)*abb"; //Test input
-    const alphabetA = "1234+-"; //Test alphabet
+    const alphabetA = "12+-"; //Test alphabet
     const toSimulate = "abba"; //Test simulation
 
     const alphabet = Array.from(
@@ -23,7 +23,7 @@ import {printMat, printAlphabet} from './utils/printing.js';
     const definitions = [
         {   
             "name":"number",
-            "regex":"1|2|3|4"
+            "regex":"12"
         },
         {
             "name":"operator",
@@ -32,7 +32,11 @@ import {printMat, printAlphabet} from './utils/printing.js';
     ]
     const finalTable = [];
     printAlphabet(alphabet);
-    AFNJoining(alphabet, definitions );
+    const joinedAFN = AFNJoining(alphabet, definitions );
+    printMat(joinedAFN);
+    const AFD = AFDConvertion(alphabet, joinedAFN);
+    const minimizatedAFD = AFDMinimization(alphabet, AFD);
+    
     //Simulation(tTable, alphabet,toSimulate);
     document.getElementById('result').innerHTML = result;
 })()

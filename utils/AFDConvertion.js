@@ -92,7 +92,7 @@ export default function AFDConvertion(alphabet, matrix){
         array.forEach(element => {
             result = result.concat( move(element, character) );
         });
-        if(character == '')
+        if(character === '')
             result = result.concat(array);
         result.sort();
         return result;
@@ -105,7 +105,6 @@ export default function AFDConvertion(alphabet, matrix){
     let dTran = [];
     while(dEstatesIndex < dEstates.length){ //while dEstates has unmarked states
         const tState = dEstates.get(dEstatesIndex);
-        
         dEstatesIndex++;//mark T in dEstates
         let newState = new Array(alphabet.length + 1); //generate a new state for dTrans
         for (const symbol of alphabet) {//for each symbol in alphabet
