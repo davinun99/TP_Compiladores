@@ -10,13 +10,20 @@
 <body>
     <div class="container">
         <div class="">
-            <input type="text" id="alfabeto" placeholder="Alfabeto"/><br/><br/>
-            <input type="text" id="regexInput" placeholder="Definicion regular" /><br/><br/>
-            <input type="text" id="stringInput" placeholder="Cadena de prueba" /><br/><br/>
-            <button id="regexInputButton">Check</button>
-        </div>
-        <div id="result">
-            
+            <div class="">
+                <input type="text" id="alphabet" placeholder="Alphabet"/><br/><br/>
+                <textarea name="" id="lexycalDefinition" cols="30" rows="10"></textarea>
+                <!--
+                <input type="text" id="regexInput" placeholder="Definicion regular" /><br/><br/>
+                <input type="text" id="stringInput" placeholder="Cadena de prueba" /><br/><br/>
+                -->
+                <button id="regexInputButton">Generate AFD</button>
+            </div>
+            <div class="" style="margin-top: 4rem;">
+                <input type="text" id="stringInput" placeholder="Input"/><br/><br/>
+                <button id="simulate">Test AFD</button>
+                <div id="result" style="background-color: aqua;"></div>
+            </div>
         </div>
     </div>
 

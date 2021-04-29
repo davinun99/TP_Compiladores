@@ -25,10 +25,8 @@ export default function Simulation(matrix, alphabet, stringInput){
     }
     let currentState = getInitialState();
     for (const character of stringInput) {//For each character that we have
-        console.log(currentState);
         currentState = mover(currentState, character);//The current state has to change according to the move function
     }
-    console.log(currentState);
     if(currentState === getFinalState()){//If we end in a final state its OK
         console.log("Si");
         return "Si";

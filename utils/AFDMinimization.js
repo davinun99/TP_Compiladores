@@ -16,8 +16,6 @@ export default function AFDMinimization(alphabet, matrix){
         getFinalStates(),
         getNoFinalStates()
     ];
-    console.log(PI[0]);
-    console.log(PI[1]);
     const getGroup = (PI, state) =>{
         for (let i = 0; i < PI.length; i++) {
             if(PI[i].includes(state)){
