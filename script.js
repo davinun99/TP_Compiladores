@@ -35,6 +35,7 @@ import {printMat, printAlphabet} from './utils/printing.js';
     const joinedAFN = AFNJoining(alphabet, definitions );
     printMat(joinedAFN);
     const AFD = AFDConvertion(alphabet, joinedAFN);
+    printMat(AFD);
     const minimizatedAFD = AFDMinimization(alphabet, AFD);
     
     //Simulation(tTable, alphabet,toSimulate);

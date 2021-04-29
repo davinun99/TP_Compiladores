@@ -57,7 +57,7 @@ class DEstatesContainer{
                 toPrint = `${toPrint}}`;
             
         })
-        //console.log(toPrint);
+        console.log(toPrint);
     }
 }
 
@@ -105,19 +105,23 @@ export default function AFDConvertion(alphabet, matrix){
     let dTran = [];
     while(dEstatesIndex < dEstates.length){ //while dEstates has unmarked states
         const tState = dEstates.get(dEstatesIndex);
+        
         dEstatesIndex++;//mark T in dEstates
         let newState = new Array(alphabet.length + 1); //generate a new state for dTrans
         for (const symbol of alphabet) {//for each symbol in alphabet
             let U = arrayClosure(tState, symbol);//Implement closeClosure of an array
             U = arrayClosure(U, '');
-            if(!dEstates.hasSet(U)){//If u is not in dEstates already add it
-                dEstates.add(U);
+            if(U.length){
+                if(!dEstates.hasSet(U)){//If u is not in dEstates already add it
+                    dEstates.add(U);
+                }
+                newState[alphabet.indexOf(symbol)] = dEstates.getSetIndex(U);//the new state moves to the U index with the current symbol.
+            }else{
+                newState[alphabet.indexOf(symbol)] = null;
             }
-            //dTran[tState, alphabet] = U;
-            newState[alphabet.indexOf(symbol)] = dEstates.getSetIndex(U);//the new state moves to the U index with the current symbol.
         }
         dTran.push(newState);
     }
-    dEstates.print();
+    //dEstates.print();
     return dTran;
 };
