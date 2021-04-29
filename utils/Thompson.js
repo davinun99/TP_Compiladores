@@ -1,6 +1,6 @@
 
 
-function Thompson(alphabet, input){
+function Thompson(alphabet, input, initialState){
     const doClean = (regex, cleanPos, currStateNumber) => {
         const sMat = recursiveGetMatrix( regex.substring(0, cleanPos), currStateNumber + 1);//load the matrix with the nexts states
         const statesQuant = sMat.length;
@@ -100,6 +100,6 @@ function Thompson(alphabet, input){
             );
         }
     }
-    return (recursiveGetMatrix(input, 0));
+    return (recursiveGetMatrix(input, initialState));
 }
 export default Thompson;

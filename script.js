@@ -2,29 +2,16 @@ import Thompson from './utils/Thompson.js';
 import AFDConvertion from './utils/AFDConvertion.js';
 import AFDMinimization from './utils/AFDMinimization.js';
 import Simulation from './utils/Simulation.js';
+import AFNJoining from './utils/AFNJoining.js';
+import {printMat, printAlphabet} from './utils/printing.js';
 
 //document.getElementById('regexInputButton').addEventListener('click', hola);
 
 (() => {
     const input = "(a|b)*abb"; //Test input
-    const alphabetA = "baaa"; //Test alphabet
+    const alphabetA = "1234+-"; //Test alphabet
     const toSimulate = "abba"; //Test simulation
-    const printMat = mat =>{// This just print the matrix
-        let toPrint = '';
-        for( let i = 0; i < mat.length; i++ ){
-            toPrint = `${toPrint} State ${i}:\t`;
-            for( let j = 0; j < mat[i].length; j++ ){
-                const el = mat[i][j];
-                if(el===0 || el)
-                    toPrint = `${toPrint}\t${el}`;
-                else
-                    toPrint = `${toPrint}\t_`;
-            }
-            toPrint = `${toPrint}\n`;
-        }
-        toPrint = `${toPrint} State ${mat.length}:\t\t  FINAL`;
-        console.log(toPrint);
-    }
+
     const alphabet = Array.from(
         new Set(
             alphabetA.split('').sort()
@@ -33,12 +20,19 @@ import Simulation from './utils/Simulation.js';
     console.log('Lexical: ' + input);
     console.log('TestInput: ' + toSimulate);
     console.log('Alphabet: ' + alphabet);
-    const mt = Thompson(alphabet, input);
-    //printMat(mt);
-    const dTran = AFDConvertion(alphabet,mt);
-    //printMat(dTran);
-    const tTable = AFDMinimization(alphabet, dTran);
-    printMat(tTable);
-    Simulation(tTable, alphabet,toSimulate);
+    const definitions = [
+        {   
+            "name":"number",
+            "regex":"1|2|3|4"
+        },
+        {
+            "name":"operator",
+            "regex":"+|-"
+        },
+    ]
+    const finalTable = [];
+    printAlphabet(alphabet);
+    AFNJoining(alphabet, definitions );
+    //Simulation(tTable, alphabet,toSimulate);
     document.getElementById('result').innerHTML = result;
 })()
