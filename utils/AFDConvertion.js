@@ -107,7 +107,7 @@ export default function AFDConvertion(alphabet, matrix){
         const tState = dEstates.get(dEstatesIndex);
         
         dEstatesIndex++;//mark T in dEstates
-        let newState = new Array(alphabet.length + 1); //generate a new state for dTrans
+        let newState = new Array(alphabet.length); //generate a new state for dTrans
         for (const symbol of alphabet) {//for each symbol in alphabet
             let U = arrayClosure(tState, symbol);//Implement closeClosure of an array
             U = arrayClosure(U, '');
@@ -121,6 +121,13 @@ export default function AFDConvertion(alphabet, matrix){
             }
         }
         dTran.push(newState);
+    }
+    for (let i = 0; i < dTran.length; i++) {
+        if(dEstates.get(i).includes(matrix.length)){//If includes final state
+            dTran[i].push(1);
+        }else{
+            dTran[i].push(0);
+        }
     }
     //dEstates.print();
     return dTran;
