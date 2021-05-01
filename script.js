@@ -27,7 +27,8 @@ const generateAFD = ()=>{
         })
     });
     /***/
-    alphabet = getAlphabet(alphaInput)
+    alphabet = getAlphabet(alphaInput);
+    printAlphabet(alphabet);    
     const joinedAFN = AFNJoining(alphabet, definitions );
     const bigAFD = AFDConvertion(alphabet, joinedAFN);
     const minimizatedAFD = AFDMinimization(alphabet, bigAFD);
