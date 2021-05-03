@@ -16,7 +16,7 @@ export default function Simulation(matrix, alphabet, stringInput){
         }
         return 0;
     }
-    const mover = (currentState, character) => {//Just return the state that is pointed by the current state moved with the recieved character
+    const move = (currentState, character) => {//Just return the state that is pointed by the current state moved with the recieved character
         const col = alphabet.indexOf(character);
         if(col === -1){
             return currentState;
@@ -27,7 +27,7 @@ export default function Simulation(matrix, alphabet, stringInput){
     let currentState = getInitialState();
     for (const character of stringInput) {//For each character that we have
         console.log(currentState);
-        currentState = mover(currentState, character);//The current state has to change according to the move function
+        currentState = move(currentState, character);//The current state has to change according to the move function
     }
     console.log(currentState);
     const finalStates = getFinalState();
