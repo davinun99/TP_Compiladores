@@ -1,17 +1,19 @@
 
 
 function Thompson(alphabet, input, initialState, keyToken){
+    const VACIO_COLUMN = alphabet.length;
+    const ROW_LENGTH = alphabet.length+1;
     const doClean = (regex, cleanPos, currStateNumber) => {
         const sMat = recursiveGetMatrix( regex.substring(0, cleanPos), currStateNumber + 1);//load the matrix with the nexts states
         const statesQuant = sMat.length;
         let lastStateNumber = statesQuant + currStateNumber + 2;
 
-        let lastSState = new Array(alphabet.length+1); //new END for S
-        lastSState[alphabet.length] = [lastStateNumber, currStateNumber+1]; //The end of s has to point to the new end and start of S
+        let lastSState = new Array(ROW_LENGTH); //new END for S
+        lastSState[VACIO_COLUMN] = [lastStateNumber, currStateNumber+1]; //The end of s has to point to the new end and start of S
         sMat.push(lastSState);//push the new END
 
-        let newState = new Array(alphabet.length + 1);//create new state that will point to s
-        newState[alphabet.length] = [currStateNumber + 1, lastStateNumber];//The start has to point to the end
+        let newState = new Array(ROW_LENGTH);//create new state that will point to s
+        newState[VACIO_COLUMN] = [currStateNumber + 1, lastStateNumber];//The start has to point to the end
         return [newState].concat(sMat);
     }
     const doOr = (regex, orPos, currStateNumber) =>{
@@ -22,21 +24,21 @@ function Thompson(alphabet, input, initialState, keyToken){
         const tMatStatesQuant = tMat.length;
         let lastStateNumber = lastStateNumberS + tMatStatesQuant + 3;
         
-        let lastSState = new Array(alphabet.length+1); //new END for S
-        lastSState[alphabet.length] = [lastStateNumber]; //Make THE NEW end of S point to new last state
+        let lastSState = new Array(ROW_LENGTH); //new END for S
+        lastSState[VACIO_COLUMN] = [lastStateNumber]; //Make THE NEW end of S point to new last state
         sMat.push(lastSState);//push the new END
         
-        let lastTState = new Array(alphabet.length+1);//new END fot T
-        lastTState[alphabet.length] = [lastStateNumber] //Make the NEW end of T point to new last state
+        let lastTState = new Array(ROW_LENGTH);//new END fot T
+        lastTState[VACIO_COLUMN] = [lastStateNumber] //Make the NEW end of T point to new last state
         tMat.push(lastTState); //Push the new END into T
 
-        let newState = new Array(alphabet.length+1);
-        newState[alphabet.length] = [currStateNumber+1, lastStateNumberS+2];//make the new state point to the S and T mats
+        let newState = new Array(ROW_LENGTH);
+        newState[VACIO_COLUMN] = [currStateNumber+1, lastStateNumberS+2];//make the new state point to the S and T mats
         return [newState].concat(sMat).concat(tMat);
     }
     const doSequence = (regex, currStateNumber)=>{
-        let currRow = new Array(alphabet.length + 1);//new array for the new state
-        currRow[alphabet.length] = [];//the last element of the array is another array with VACIO pointers
+        let currRow = new Array(ROW_LENGTH);//new array for the new state
+        currRow[VACIO_COLUMN] = [];//the last element of the array is another array with VACIO pointers
         const colN = alphabet.indexOf(regex);//The column to load is determined by the position of the character in the alphabet
         currRow[colN] = currStateNumber + 1;//The end should point to the next state
         return [currRow];
@@ -100,7 +102,9 @@ function Thompson(alphabet, input, initialState, keyToken){
             );
         }
     }
+    return (recursiveGetMatrix(input, initialState));
     const table = recursiveGetMatrix(input, initialState);
+    console.log(table);
     //table[table.length-1] = table[table.length-1].concat(keyToken);//Last col has the token
     return table;
 }
