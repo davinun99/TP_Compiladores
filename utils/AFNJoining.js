@@ -1,7 +1,4 @@
 import Thompson from './Thompson.js';
-import AFDConvertion from './AFDConvertion.js';
-import AFDMinimization from './AFDMinimization.js';
-import {printMat} from './printing.js';
 export default function AFNJoining(alphabet, definitions){
     let joinedAfn = [
         new Array(alphabet.length + 1)
@@ -9,9 +6,10 @@ export default function AFNJoining(alphabet, definitions){
     let initialState = 1;
     let finalPointers = [];
     let initialPointers = [];
-    for(const definition of definitions){
+    for(const key in definitions){
+        const definition = definitions[key];
         initialPointers.push(initialState);
-        const afn = Thompson(alphabet, definition.regex, initialState);
+        const afn = Thompson(alphabet, definition.regex, initialState, key);
         finalPointers.push(initialState+afn.length);
         const lastState = new Array(alphabet.length+1);//New array that will point to the real last state
         afn.push(lastState);

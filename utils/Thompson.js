@@ -1,6 +1,6 @@
 
 
-function Thompson(alphabet, input, initialState){
+function Thompson(alphabet, input, initialState, keyToken){
     const doClean = (regex, cleanPos, currStateNumber) => {
         const sMat = recursiveGetMatrix( regex.substring(0, cleanPos), currStateNumber + 1);//load the matrix with the nexts states
         const statesQuant = sMat.length;
@@ -100,6 +100,8 @@ function Thompson(alphabet, input, initialState){
             );
         }
     }
-    return (recursiveGetMatrix(input, initialState));
+    const table = recursiveGetMatrix(input, initialState);
+    //table[table.length-1] = table[table.length-1].concat(keyToken);//Last col has the token
+    return table;
 }
 export default Thompson;
