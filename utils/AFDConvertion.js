@@ -62,26 +62,25 @@ class DEstatesContainer{
 }
 
 export default function AFDConvertion(alphabet, matrix){
-    
+    const VACIO_COLUMN = alphabet.length;
     const move = (stateNumber, character) => {
         const indexOfChar = alphabet.indexOf(character);
         if(matrix.length === stateNumber){
             return [];
         }else if(character === ''){//IF VACIO CHARACTER
-            const lastIndex = matrix[stateNumber].length -1;//VACIOS ARE SAVED IN THE LAST INDEX OF THE ROW
-            if(matrix[stateNumber][lastIndex] && matrix[stateNumber][lastIndex].length){ //IF THE LAST INDEX OF THE ROW IS NOT EMPTY
+            if(matrix[stateNumber][VACIO_COLUMN] && matrix[stateNumber][VACIO_COLUMN].length){ //IF THE LAST INDEX OF THE ROW (vacio container)IS NOT EMPTY
                 let nextStates = [];//VECTOR TO LOAD NEXT STATES TO VISIT
-                matrix[stateNumber][lastIndex].forEach(state => {//FOR EACH STATE PENDING OF VISIT
+                matrix[stateNumber][VACIO_COLUMN].forEach(state => {//FOR EACH STATE PENDING OF VISIT
                     nextStates = nextStates.concat(move(state, character));//LOAD THE NEXT STATES TO VISIT
                 });
-                return matrix[stateNumber][lastIndex].concat(nextStates).sort(); //RETURN ALL THE STATES TO VISIT OF THIS ROW + THE STATES VISITED ABOVE
+                return matrix[stateNumber][VACIO_COLUMN].concat(nextStates).sort(); //RETURN ALL THE STATES TO VISIT OF THIS ROW + THE STATES VISITED ABOVE
             }else{
                 return [];//IF NO STATES TO VISIT RETURN []
             }
         }else if(indexOfChar !== -1){//IF ALPHABET CHARACTER
             const nextStates = matrix[stateNumber][indexOfChar];
             if(nextStates){
-                return [nextStates].sort();//return the state + the next states possibles
+                return [nextStates].sort();//return the next states possibles sorted
             }else{
                 return [];
             }
@@ -103,14 +102,15 @@ export default function AFDConvertion(alphabet, matrix){
     const dEstates = new DEstatesContainer(initialStates);
     let dEstatesIndex = 0;
     let dTran = [];
+    const T_STATE_INITIAL_LENGTH = alphabet.length;
     while(dEstatesIndex < dEstates.length){ //while dEstates has unmarked states
         const tState = dEstates.get(dEstatesIndex);
         
         dEstatesIndex++;//mark T in dEstates
-        let newState = new Array(alphabet.length); //generate a new state for dTrans
+        let newState = new Array(T_STATE_INITIAL_LENGTH); //generate a new state for dTrans
         for (const symbol of alphabet) {//for each symbol in alphabet
             let U = arrayClosure(tState, symbol);//Implement closeClosure of an array
-            U = arrayClosure(U, '');
+            U = arrayClosure(U, '');//Do the vacio closure
             if(U.length){
                 if(!dEstates.hasSet(U)){//If u is not in dEstates already add it
                     dEstates.add(U);
