@@ -21,7 +21,11 @@ export default function Simulation(matrix, alphabet, stringInput){
         if(col === -1){
             return currentState;
         }else{
-            return matrix[currentState][col];
+            if(matrix[currentState][col] === 0 || matrix[currentState][col])
+                return matrix[currentState][col];
+            else{
+                return currentState;
+            }
         }
     }
     let currentState = getInitialState();

@@ -6,10 +6,10 @@ export default function AFNJoining(alphabet, definitions){
     let initialState = 1;
     let finalPointers = [];
     let initialPointers = [];
-    for(const key in definitions){
-        const definition = definitions[key];
+    for(let i=0; i<definitions.length; i++){
+        const definition = definitions[i].lexeme;
         initialPointers.push(initialState);
-        const afn = Thompson(alphabet, definition.regex, initialState, key);
+        const afn = Thompson(alphabet, definition, initialState);
         finalPointers.push(initialState+afn.length);
         const lastState = new Array(alphabet.length+1);//New array that will point to the real last state
         afn.push(lastState);

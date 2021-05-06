@@ -1,6 +1,6 @@
 
 
-function Thompson(alphabet, input, initialState, keyToken){
+function Thompson(alphabet, input, initialState){
     const VACIO_COLUMN = alphabet.length;
     const ROW_LENGTH = alphabet.length+1;
     const doClean = (regex, cleanPos, currStateNumber) => {
@@ -102,10 +102,7 @@ function Thompson(alphabet, input, initialState, keyToken){
             );
         }
     }
-    return (recursiveGetMatrix(input, initialState));
     const table = recursiveGetMatrix(input, initialState);
-    console.log(table);
-    //table[table.length-1] = table[table.length-1].concat(keyToken);//Last col has the token
     return table;
 }
 export default Thompson;
