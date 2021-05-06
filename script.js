@@ -12,8 +12,8 @@ const getAlphabet = (letters) =>{
     return alphabet;
 }
 let alphabet = '';
-let afd = null;
-let afDArray = [];
+let afDArray = []; //array of {token:'' afd:[]}
+let symbolsTable = [];//array of {token:'', lexeme:''}
 const generateAFDs = ()=>{
     const definitions = []
     const textArea = document.getElementById('lexycalDefinition').value;
@@ -40,16 +40,43 @@ const generateAFDs = ()=>{
     }
 }
 const simulateAll = ()=>{
-    const stringToSimulate = document.getElementById('stringInput').value;
+    const textToSimulate = document.getElementById('stringInput').value;
+    const arrayToSimulate = textToSimulate.split(' ');
+    symbolsTable = [];
+    arrayToSimulate.forEach(string =>{
+        simulateOne(string);
+    })
+    console.log(symbolsTable);
+    showSymbolsTable();
+}
+
+const simulateOne = (stringToSimulate)=>{    
     if(afDArray.length){
-        let token = '';
+        let afdUsed = -1;
         let i = 0;
-        while( token === '' && i < afDArray.length){
-            token = Simulation(afDArray[i].afd, alphabet,stringToSimulate) ? afDArray[i].token : '';
+        while( afdUsed === -1 && i < afDArray.length){
+            if( Simulation(afDArray[i].afd, alphabet, stringToSimulate) ){
+                symbolsTable.push({
+                    token:  afDArray[i].token,
+                    lexeme: stringToSimulate
+                });
+                afdUsed = i;
+            }
             i++;
         }
-        document.getElementById("result").innerHTML = token === '' ? 'NAH': token;
+        if(afdUsed === -1){
+            console.error('Lexical error. Lexeme: ' + stringToSimulate);
+        }
     }
+}
+const showSymbolsTable = () =>{
+    const domTable = document.getElementById('symbolsTable');
+    domTable.innerHTML = "<tr><th>Token</th><th>Lexeme</th></tr>" + symbolsTable.reduce( (acc, curr) => (`${acc}
+        <tr>
+            <td>${curr.token}</td>
+            <td>${curr.lexeme}</td>
+        </tr>`)
+    , '' );
 }
 document.getElementById('regexInputButton').addEventListener('click', generateAFDs);
 document.getElementById('simulate').addEventListener('click', simulateAll);

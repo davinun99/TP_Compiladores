@@ -8,26 +8,34 @@
     <title>TP Compiladores</title>
 </head>
 <body>
-    <div class="container">
-        <div class="">
+    <div class="containerParent">
+        <div class="container">
             <div class="">
-                <input type="text" id="alphabet" placeholder="Alphabet" value="abcd+-"/><br/><br/>
-                <textarea name="" id="lexycalDefinition" cols="30" rows="10">
-rex->(a|b)*abb</textarea>
-                <!--
-                <input type="text" id="regexInput" placeholder="Definicion regular" /><br/><br/>
-                <input type="text" id="stringInput" placeholder="Cadena de prueba" /><br/><br/>
-                -->
-                <button id="regexInputButton">Generate AFD</button>
-            </div>
-            <div class="" style="margin-top: 4rem;">
-                <input type="text" id="stringInput" placeholder="Input"/><br/><br/>
-                <button id="simulate">Test AFD</button>
-                <div id="result" style="background-color: aqua;"></div>
+                <div class="">
+                    <input type="text" id="alphabet" placeholder="Alphabet" value="abcd+-"/><br/><br/>
+                    <textarea name="" id="lexycalDefinition" cols="30" rows="10">
+rex->(a|b)*abb
+op->+|-
+cd->cd</textarea>
+                    <!--
+                    <input type="text" id="regexInput" placeholder="Definicion regular" /><br/><br/>
+                    <input type="text" id="stringInput" placeholder="Cadena de prueba" /><br/><br/>
+                    -->
+                    <button id="regexInputButton">Generate AFD</button>
+                </div>
+                <div class="" style="margin-top: 4rem;">
+                    <input type="text" id="stringInput" placeholder="Input" value="abb cd + cd"/><br/><br/>
+                    <button id="simulate">Test AFD</button>
+                    <div id="result" style="background-color: aqua;"></div>
+                </div><br/>
+                <div class="">
+                    <table style="width: 100%; text-align: center;" id="symbolsTable" >
+                        
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-
     <script src="script.js" type="module" defer></script>
 </body>
 </html>

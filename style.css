@@ -1,9 +1,13 @@
-body{
-    height: 100vh;
-}
+
 .container{
     height: 70%;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+table, th, td {
+    border: 1px solid black;
+}
+th{
+    background-color: bisque;
 }

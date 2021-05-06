@@ -21,23 +21,20 @@ export default function Simulation(matrix, alphabet, stringInput){
         if(col === -1){
             return currentState;
         }else{
-            if(matrix[currentState][col] === 0 || matrix[currentState][col])
-                return matrix[currentState][col];
-            else{
-                return currentState;
-            }
+            return matrix[currentState][col];
         }
     }
     let currentState = getInitialState();
     for (const character of stringInput) {//For each character that we have
         currentState = move(currentState, character);//The current state has to change according to the move function
+        if(currentState === undefined || currentState === null){//If next state turns to be undefined, return FALSE!
+            return false;
+        }
     }
     const finalStates = getFinalState();
     if(finalStates.includes(currentState)){//If we end in a final state its OK
-        console.log("Si");
         return true;
     }else{//If we end in a not final state its NOT OK
-        console.log("No");
         return false;
     }
 }
