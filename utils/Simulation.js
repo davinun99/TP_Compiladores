@@ -31,9 +31,9 @@ export default function Simulation(matrix, alphabet, stringInput){
     const finalStates = getFinalState();
     if(finalStates.includes(currentState)){//If we end in a final state its OK
         console.log("Si");
-        return "Si";
+        return true;
     }else{//If we end in a not final state its NOT OK
         console.log("No");
-        return "No";
+        return false;
     }
 }
