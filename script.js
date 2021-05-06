@@ -46,7 +46,6 @@ const simulateAll = ()=>{
     arrayToSimulate.forEach(string =>{
         simulateOne(string);
     })
-    console.log(symbolsTable);
     showSymbolsTable();
 }
 
