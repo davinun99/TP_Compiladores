@@ -55,6 +55,7 @@ function Thompson(alphabet, input, initialState){
         }
     }
     const recursiveGetMatrix = (regex, currStateNumber) => {//Function to consume regex and return the Matrix
+        console.log(regex);
         if(!regex){
             return null;
         }
@@ -65,10 +66,10 @@ function Thompson(alphabet, input, initialState){
         
         if(closePar !== -1 && openPar !== -1){
             const newRegex = regex.substring(openPar+1, closePar);
-            if(closePar === regex.length-1){
+            if(closePar === regex.length-1 && openPar === 0 ){
                 return recursiveGetMatrix(newRegex, currStateNumber);
-            }else if(closePar + 1 === orPos || openPar + 1 === orPos){//Or is already at max priority so just removing the parenthesis if their redundant
-                const regexWithoutPar = regex.splice(0,openPar) + regex.splice(openPar+1, closePar) + regex.substring(closePar+1); //remove parenthesis
+            }else if(closePar + 1 === orPos || openPar - 1 === orPos){//Or is already at max priority so just removing the parenthesis if their redundant
+                const regexWithoutPar = regex.substring(0,openPar) + regex.substring(openPar+1, closePar) + regex.substring(closePar+1); //remove parenthesis
                 return recursiveGetMatrix(regexWithoutPar, currStateNumber);
             }
             else if(cleanPos === closePar + 1){
@@ -80,11 +81,8 @@ function Thompson(alphabet, input, initialState){
                     cleanedMat = cleanedMat.concat(nextMat);
                 }
                 return cleanedMat;
-            }else if(
-                regex[orPos+1] === '(' &&
-                regex[orPos-1] === ')'
-            ){
-                //Or in between
+            }else if( alphabet.indexOf(regex[openPar -1]) !== -1 ){
+                //TODO: doSequence()
             }
             
         }else if(orPos !== -1){

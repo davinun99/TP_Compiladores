@@ -119,3 +119,7 @@ const showTransitionTable = () => {
 }
 document.getElementById('regexInputButton').addEventListener('click', generateAFDs);
 document.getElementById('simulate').addEventListener('click', simulateAll);
+
+const mat = Thompson('ab','a(a|b)b',0);
+printAlphabet('ab');
+printMat(mat);
