@@ -33,6 +33,7 @@ const generateAFDs = ()=>{
     printAlphabet(alphabet);
     for(let i = 0; i < definitions.length; i++){
         const afn = Thompson(alphabet, definitions[i].lexeme, 0, definitions[i].token);//Generates the afn
+        printMat(afn);
         const bigAFD = AFDConvertion(alphabet, afn);//Convertion to afd
         const minimizatedAFD = AFDMinimization(alphabet, bigAFD);//Minimization
         afDArray[i] = {//Generates an object with the token and afd
@@ -119,7 +120,3 @@ const showTransitionTable = () => {
 }
 document.getElementById('regexInputButton').addEventListener('click', generateAFDs);
 document.getElementById('simulate').addEventListener('click', simulateAll);
-
-const mat = Thompson('ab','a(a|b)b',0);
-printAlphabet('ab');
-printMat(mat);

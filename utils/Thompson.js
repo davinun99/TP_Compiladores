@@ -1,5 +1,4 @@
 
-
 function Thompson(alphabet, input, initialState){
     const VACIO_COLUMN = alphabet.length;
     const ROW_LENGTH = alphabet.length+1;
@@ -55,8 +54,8 @@ function Thompson(alphabet, input, initialState){
         }
     }
     const recursiveGetMatrix = (regex, currStateNumber) => {//Function to consume regex and return the Matrix
-        console.log(regex);
-        if(!regex){
+        //console.log(regex);
+        if(!regex){// If regex is comming null or empty return null
             return null;
         }
         const orPos = regex.indexOf('|');
@@ -65,14 +64,14 @@ function Thompson(alphabet, input, initialState){
         const closePar = getParClosing(regex, openPar);
         
         if(closePar !== -1 && openPar !== -1){
-            const newRegex = regex.substring(openPar+1, closePar);
-            if(closePar === regex.length-1 && openPar === 0 ){
+            const newRegex = regex.substring(openPar+1, closePar); //get the expression between the parenthesis
+            if(closePar === regex.length-1 && openPar === 0 ){// if the parenthesis are just wrapping the whole expression, just return the whole expression
                 return recursiveGetMatrix(newRegex, currStateNumber);
             }else if(closePar + 1 === orPos || openPar - 1 === orPos){//Or is already at max priority so just removing the parenthesis if their redundant
                 const regexWithoutPar = regex.substring(0,openPar) + regex.substring(openPar+1, closePar) + regex.substring(closePar+1); //remove parenthesis
                 return recursiveGetMatrix(regexWithoutPar, currStateNumber);
             }
-            else if(cleanPos === closePar + 1){
+            else if(cleanPos === closePar + 1){//If clean is after the parenthesis
                 let cleanedMat = doClean(newRegex, cleanPos, currStateNumber); //Clean the regex
                 const regexAfterC = regex.substring(cleanPos + 1); //substr the regex after 
                 if(regexAfterC ){//If next characters exist
@@ -81,8 +80,22 @@ function Thompson(alphabet, input, initialState){
                     cleanedMat = cleanedMat.concat(nextMat);
                 }
                 return cleanedMat;
-            }else if( alphabet.indexOf(regex[openPar -1]) !== -1 ){
-                //TODO: doSequence()
+            }else if( alphabet.indexOf(regex[openPar -1]) !== -1 ){//if before the parenthesis there are just more letters
+                const regexBeforePar = regex.substring(0, openPar); //Get the expression before the parenthesis
+                let afn = recursiveGetMatrix( regexBeforePar, currStateNumber );//Get the matrix for the expression before
+                const lastState = afn.length + currStateNumber;//Get the next state with the new matrix lenght + the current state number
+                const regexAfterPar = regex.substring(openPar); //Get the regex after the open parenthesis
+                const afnAfter = recursiveGetMatrix( regexAfterPar, lastState );//Get the AFN for the expression after the parenthesis
+                afn = afn.concat(afnAfter);
+                return afn;
+            }else if( alphabet.indexOf(regex[closePar + 1]) !== -1 ){//If after the parenthesis there are more letters
+                const regexBeforeChar = regex.substring(0, closePar + 1); //Get the expression til the character
+                let afn = recursiveGetMatrix( regexBeforeChar, currStateNumber );//Get the matrix for the expression before
+                const lastState = afn.length + currStateNumber;//Get the next state with the new matrix lenght + the current state number
+                const regexAfterChar = regex.substring(closePar + 1); //Get the regex after the closing parenthesis
+                const afnAfter = recursiveGetMatrix( regexAfterChar, lastState );//Get the AFN for the expression after the char
+                afn = afn.concat(afnAfter);
+                return afn;
             }
             
         }else if(orPos !== -1){
